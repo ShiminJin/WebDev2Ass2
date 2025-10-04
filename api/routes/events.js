@@ -122,7 +122,7 @@ router.get('/:id', async (req, res) => {
             FROM events e
             JOIN categories c ON e.category_id = c.id
             JOIN organizations o ON e.organization_id = o.id
-            WHERE e.id = ? AND e.is_active = TRUE AND e.is_suspended = FALSE
+            WHERE e.id = ?
         `;
 
         const [events] = await db.execute(query, [eventId]);
