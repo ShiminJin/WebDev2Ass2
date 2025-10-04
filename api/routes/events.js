@@ -18,9 +18,6 @@ router.get('/', async (req, res) => {
             FROM events e
             JOIN categories c ON e.category_id = c.id
             JOIN organizations o ON e.organization_id = o.id
-            WHERE e.is_active = TRUE 
-            AND e.is_suspended = FALSE
-            AND e.event_date >= CURDATE()
             ORDER BY e.event_date ASC
         `;
 
@@ -54,9 +51,6 @@ router.get('/search', async (req, res) => {
             FROM events e
             JOIN categories c ON e.category_id = c.id
             JOIN organizations o ON e.organization_id = o.id
-            WHERE e.is_active = TRUE 
-            AND e.is_suspended = FALSE
-            AND e.event_date >= CURDATE()
         `;
 
         const params = [];
@@ -178,5 +172,40 @@ router.get('/organization/:orgId', async (req, res) => {
         });
     }
 });
+router.get('/all', async (req, res) => {
+    try {
+        const query = `
+            SELECT 
+                e.*,
+                c.name as category_name,
+                c.description as category_description,
+                o.name as organization_name,
+                o.description as organization_description,
+                o.contact_email,
+                o.contact_phone,
+                o.logo_url as organization_logo
+            FROM events e
+            JOIN categories c ON e.category_id = c.id
+            JOIN organizations o ON e.organization_id = o.id
+            WHERE e.is_active = TRUE 
+            AND e.is_suspended = FALSE
+            ORDER BY e.event_date ASC
+        `;
 
+        const [events] = await db.execute(query);
+        
+        res.json({
+            success: true,
+            count: events.length,
+            data: events
+        });
+    } catch (error) {
+        console.error('Error fetching all events:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to fetch events',
+            message: error.message
+        });
+    }
+});
 module.exports = router;
