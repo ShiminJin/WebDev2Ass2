@@ -39,6 +39,7 @@ router.get('/', async (req, res) => {
             message: error.message
         });
     }
+});
 // GET /api/events/search - Search for events
 router.get('/search', async (req, res) => {
     try {
