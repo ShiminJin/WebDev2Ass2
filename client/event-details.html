@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details - HopeConnect</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%232563eb'/></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="index.html" class="logo">HopeConnect</a>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="search.html" class="nav-link">Search Events</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Event Details Section -->
+    <section class="event-details-section">
+        <div class="container">
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-state">
+                <div class="loading-spinner"></div>
+                <p>Loading event details...</p>
+            </div>
+
+            <!-- Event Content (will be populated by JavaScript) -->
+            <div id="eventContent" style="display: none;">
+                <!-- Breadcrumb Navigation -->
+                <nav class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span class="breadcrumb-separator">/</span>
+                    <a href="search.html">Events</a>
+                    <span class="breadcrumb-separator">/</span>
+                    <span id="breadcrumbEventName">Event Details</span>
+                </nav>
+
+                <!-- Event Header -->
+                <div class="event-header">
+                    <div class="event-category-badge" id="eventCategory"></div>
+                    <h1 id="eventTitle">Event Title</h1>
+                    <div class="event-meta-primary">
+                        <div class="meta-item">
+                            <span class="meta-icon">📅</span>
+                            <span id="eventDate">Date</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">📍</span>
+                            <span id="eventLocation">Location</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">👥</span>
+                            <span id="eventOrganization">Organization</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="event-details-grid">
+                    <!-- Main Content -->
+                    <div class="event-main">
+                        <!-- Event Image -->
+                        <div class="event-image-large">
+                            <div id="eventImage" class="event-image-placeholder">
+                                <!-- Image will be loaded here -->
+                            </div>
+                        </div>
+
+                        <!-- Event Description -->
+                        <div class="event-description-section">
+                            <h2>About This Event</h2>
+                            <p id="eventDescription">Event description will be loaded here...</p>
+                        </div>
+
+                        <!-- Fundraising Progress -->
+                        <div class="fundraising-section">
+                            <h2>Fundraising Progress</h2>
+                            <div class="progress-container">
+                                <div class="progress-header">
+                                    <span>Raised</span>
+                                    <span id="progressAmount">$0</span>
+                                    <span>of</span>
+                                    <span id="goalAmount">$0</span>
+                                    <span>goal</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <div class="progress-percentage" id="progressPercentage">0%</div>
+                            </div>
+                        </div>
+
+                        <!-- Event Details -->
+                        <div class="details-section">
+                            <h2>Event Details</h2>
+                            <div class="details-grid">
+                                <div class="detail-item">
+                                    <strong>Venue:</strong>
+                                    <span id="eventVenue">To be announced</span>
+                                </div>
+                                <div class="detail-item">
+                                    <strong>Registration Deadline:</strong>
+                                    <span id="registrationDeadline">Not specified</span>
+                                </div>
+                                <div class="detail-item">
+                                    <strong>Maximum Attendees:</strong>
+                                    <span id="maxAttendees">Not specified</span>
+                                </div>
+                                <div class="detail-item">
+                                    <strong>Event Status:</strong>
+                                    <span id="eventStatus">Active</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="event-sidebar">
+                        <!-- Registration Box -->
+                        <div class="registration-box">
+                            <div class="ticket-price" id="ticketPrice">Free</div>
+                            <button id="registerButton" class="btn btn-primary btn-large">
+                                Register for Event
+                            </button>
+                            <p class="registration-note">By registering, you agree to our terms and conditions.</p>
+                        </div>
+
+                        <!-- Organization Info -->
+                        <div class="organization-card">
+                            <h3>Organized By</h3>
+                            <div class="org-info">
+                                <div id="orgLogo" class="org-logo-placeholder">
+                                    <!-- Organization logo will be loaded here -->
+                                </div>
+                                <div class="org-details">
+                                    <h4 id="orgName">Organization Name</h4>
+                                    <p id="orgDescription">Organization description...</p>
+                                    <div class="org-contact">
+                                        <div class="contact-item">
+                                            <span class="contact-icon">📧</span>
+                                            <span id="orgEmail">email@example.com</span>
+                                        </div>
+                                        <div class="contact-item">
+                                            <span class="contact-icon">📞</span>
+                                            <span id="orgPhone">+61 2 1234 5678</span>
+                                        </div>
+                                        <div class="contact-item">
+                                            <span class="contact-icon">🏢</span>
+                                            <span id="orgAddress">Organization address</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="quick-actions">
+                            <h3>Quick Actions</h3>
+                            <button class="btn btn-outline btn-block" onclick="shareEvent()">
+                                📤 Share This Event
+                            </button>
+                            <a href="search.html" class="btn btn-outline btn-block">
+                                🔍 Find Similar Events
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="error-state" style="display: none;">
+                <h3>Event Not Found</h3>
+                <p>We couldn't find the event you're looking for. It may have been removed or the link might be incorrect.</p>
+                <div class="error-actions">
+                    <a href="index.html" class="btn btn-primary">Return to Home</a>
+                    <a href="search.html" class="btn btn-outline">Browse All Events</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration Modal -->
+    <div id="registrationModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Registration Coming Soon</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>The online registration feature is currently under development.</p>
+                <p>For now, please contact the event organizer directly to register for this event.</p>
+                <div class="organizer-contact">
+                    <strong>Contact the organizer:</strong>
+                    <p id="modalOrgEmail"></p>
+                    <p id="modalOrgPhone"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="closeModal()" class="btn btn-primary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>HopeConnect</h3>
+                    <p>Making charity accessible to everyone</p>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="search.html">Search Events</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 HopeConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/event-details.js"></script>
+</body>
+</html>
