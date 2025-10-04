@@ -66,12 +66,14 @@ async function handleSearch(event) {
     currentFilters = {
         category: formData.get('category'),
         location: formData.get('location'),
-        date: formData.get('date')
+        date: formData.get('date'),
+        title: formData.get('title'),        
+        is_active: formData.get('is_active') 
     };
     
-    // Remove empty filters
+    // Remove the filter conditions for null values
     Object.keys(currentFilters).forEach(key => {
-        if (!currentFilters[key]) {
+        if (currentFilters[key] === '') {
             delete currentFilters[key];
         }
     });

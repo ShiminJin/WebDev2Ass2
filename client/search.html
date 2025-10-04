@@ -43,7 +43,20 @@
                                 <!-- Categories will be loaded dynamically -->
                             </select>
                         </div>
+                        
+                        <div class="form-group">
+                            <label for="title">Event Name</label>
+                            <input type="text" id="title" name="title" placeholder="Enter event name">
+                        </div>
 
+                        <div class="form-group">
+                            <label for="is_active">Event Status</label>
+                            <select id="is_active" name="is_active">
+                                <option value="">All Statuses</option>
+                                <option value="true">Active Only</option>
+                                <option value="false">Inactive Only</option>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label for="location">Location</label>
                             <input type="text" id="location" name="location" placeholder="Enter city or venue">

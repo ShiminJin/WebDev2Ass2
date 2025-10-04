@@ -37,10 +37,11 @@ router.get('/', async (req, res) => {
         });
     }
 });
-// GET /api/events/search - Search for events
+// GET /api/events/search - Search events
 router.get('/search', async (req, res) => {
     try {
-        const { category, location, date } = req.query;
+        // Obtain all filtering conditions from the query parameters
+        const { category, location, date, title, is_active } = req.query;
         
         let baseQuery = `
             SELECT 
@@ -53,22 +54,32 @@ router.get('/search', async (req, res) => {
             JOIN organizations o ON e.organization_id = o.id
         `;
 
+        const conditions = [];
         const params = [];
-        
-        // Build dynamic query conditions
+
         if (category) {
-            baseQuery += ' AND e.category_id = ?';
+            conditions.push('e.category_id = ?');
             params.push(category);
         }
-        
         if (location) {
-            baseQuery += ' AND e.location LIKE ?';
-            params.push(`%${location}%`);
+            conditions.push('LOWER(e.location) LIKE ?');
+            params.push(`%${location.toLowerCase()}%`);
         }
-        
         if (date) {
-            baseQuery += ' AND DATE(e.event_date) = ?';
+            conditions.push('DATE(e.event_date) = ?');
             params.push(date);
+        }
+        if (title) {
+            conditions.push('LOWER(e.title) LIKE ?');
+            params.push(`%${title.toLowerCase()}%`);
+        }
+        if (is_active !== undefined && is_active !== '') {
+            conditions.push('e.is_active = ?');
+            params.push(is_active === 'true');
+        }
+
+        if (conditions.length > 0) {
+            baseQuery += ' WHERE ' + conditions.join(' AND ');
         }
 
         baseQuery += ' ORDER BY e.event_date ASC';
@@ -78,7 +89,7 @@ router.get('/search', async (req, res) => {
         res.json({
             success: true,
             count: events.length,
-            filters: { category, location, date },
+            filters: { category, location, date, title, is_active },
             data: events
         });
     } catch (error) {
@@ -172,40 +183,5 @@ router.get('/organization/:orgId', async (req, res) => {
         });
     }
 });
-router.get('/all', async (req, res) => {
-    try {
-        const query = `
-            SELECT 
-                e.*,
-                c.name as category_name,
-                c.description as category_description,
-                o.name as organization_name,
-                o.description as organization_description,
-                o.contact_email,
-                o.contact_phone,
-                o.logo_url as organization_logo
-            FROM events e
-            JOIN categories c ON e.category_id = c.id
-            JOIN organizations o ON e.organization_id = o.id
-            WHERE e.is_active = TRUE 
-            AND e.is_suspended = FALSE
-            ORDER BY e.event_date ASC
-        `;
 
-        const [events] = await db.execute(query);
-        
-        res.json({
-            success: true,
-            count: events.length,
-            data: events
-        });
-    } catch (error) {
-        console.error('Error fetching all events:', error);
-        res.status(500).json({
-            success: false,
-            error: 'Failed to fetch events',
-            message: error.message
-        });
-    }
-});
 module.exports = router;
