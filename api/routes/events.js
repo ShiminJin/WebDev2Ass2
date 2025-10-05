@@ -18,6 +18,7 @@ router.get('/', async (req, res) => {
             FROM events e
             JOIN categories c ON e.category_id = c.id
             JOIN organizations o ON e.organization_id = o.id
+            WHERE e.is_active = TRUE
             ORDER BY e.event_date ASC
         `;
 

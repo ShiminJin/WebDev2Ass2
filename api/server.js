@@ -63,10 +63,11 @@ app.use((error, req, res, next) => {
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`🎯 Charity Events API server running on port ${PORT}`);
-    console.log(`📍 Base URL: http://localhost:${PORT}/`);
-    console.log(`📚 API Documentation:`);
+    console.log(` Charity Events API server running on port ${PORT}(｀・ω・´)`);
+    console.log(` Base URL: http://localhost:${PORT}/(｀・ω・´)`);
+    console.log(` API Documentation:`);
     console.log(`   - All events: http://localhost:${PORT}/api/events`);
     console.log(`   - All categories: http://localhost:${PORT}/api/categories`);
     console.log(`   - Search events: http://localhost:${PORT}/api/events/search?location=Sydney`);
+    console.log(`(｀・ω・´)`);
 });
